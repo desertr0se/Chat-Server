@@ -10,15 +10,22 @@ import java.nio.file.Paths;
 
 public class Server {
 
-	private static File userInformation = new File("userInfo.txt");
-	private static Map<String, User> activeUsers = new ConcurrentHashMap<String, User>();
-	private static Map<String, String> allUsers = new ConcurrentHashMap<String, String>();
-	private static Map<String, ChatRoom> chatRooms = new ConcurrentHashMap<String, ChatRoom>();
-	private static ServerSocket serverSocket;
-	private static final int port = 5051;
+	private  File userInformation = new File("userInfo.txt");
+	private  Map<String, User> activeUsers = new ConcurrentHashMap<String, User>();
+	private  Map<String, String> allUsers = new ConcurrentHashMap<String, String>();
+	private  Map<String, ChatRoom> chatRooms = new ConcurrentHashMap<String, ChatRoom>();
+	private  ServerSocket serverSocket;
+	private  int port = 5051;
 
 	public static void main(String[] args) {
+		Server server = new Server();
+		server.start(args);
+	}
+	public void start(String[] args) {
 		
+		if(args.length>0) {
+			port = Integer.parseInt(args[0]);
+		}
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
@@ -30,13 +37,13 @@ public class Server {
 		clientAdding();
 	}
 
-	private static void clientAdding() {
+	private  void clientAdding() {
 		while (true) {
 			try {
 				Socket clientSocket = serverSocket.accept();
 				System.out.println("New client request received : " + clientSocket);
 
-				ClientHandler clientHandler = new ClientHandler(clientSocket, activeUsers, allUsers, chatRooms);
+				ClientHandler clientHandler = new ClientHandler(clientSocket, activeUsers, allUsers, chatRooms, this);
 				Thread clientThread = new Thread(clientHandler);
 				System.out.println("Adding this client to active client list");
 
@@ -48,8 +55,8 @@ public class Server {
 		}
 	}
 
-	private static void loadUsers() {
-		if (userInformation.exists()) {
+	private  void loadUsers() {
+		if (!userInformation.exists()) {
 			try {
 				userInformation.createNewFile();
 			} catch (IOException e) {
@@ -66,7 +73,7 @@ public class Server {
 		}
 	}
 
-	public static File getUserInfo() {
+	public File getUserInfo() {
 		return userInformation;
 	}
 }

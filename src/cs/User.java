@@ -31,6 +31,10 @@ public class User extends Thread {
 		this.downloadPath = downloadPath;
 	}
 
+	public String getDownloadPath() {
+		return this.downloadPath;
+	}
+	
 	public DataInputStream getInputStream() {
 		return inputStream;
 	}
@@ -76,5 +80,10 @@ public class User extends Thread {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public void setUserName(String username) {
+		this.username = username;
+		
 	}
 }
