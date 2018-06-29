@@ -10,7 +10,7 @@ public class Timer {
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
 		String clientargs[] = { "localhost", "8888" };
-		for (int i = 0; i < 32; i++) {
+		for (int i = 0; i < 10000; i++) {
 			Thread t = new X(i, clientargs);
 			t.start();
 		}
