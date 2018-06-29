@@ -10,7 +10,7 @@ public class Timer {
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
 		String clientargs[] = { "localhost", "8888" };
-		for (int i = 0; i < 1100; i++) {
+		for (int i = 0; i < 128; i++) {
 			Thread t = new X(i, clientargs);
 			t.start();
 		}
@@ -29,7 +29,7 @@ class X extends Thread {
 	@Override
 	public void run() {
 		try {
-			String commands = "connect\r\nregister>b" + x + ">b\r\nlogin>b" + x
+			String commands = "connect\r\nregister>g" + x + ">b\r\nlogin>g" + x
 					+ ">b\r\njoin-room>testt\r\nsend>a>h\r\nsend>a>h\r\nsend>a>h\r\ndisconnect\r\n\r\n";
 			InputStream stream = new ByteArrayInputStream(commands.getBytes());
 			Client client = new Client();
